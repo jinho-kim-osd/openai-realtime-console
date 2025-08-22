@@ -10,6 +10,13 @@ Before you begin, you'll need an OpenAI API key - [create one in the dashboard h
 cp .env.example .env
 ```
 
+You can override the API base and model via environment variables:
+
+- REALTIME_BASE_URL and REALTIME_MODEL (server)
+- VITE_REALTIME_BASE_URL and VITE_REALTIME_MODEL (client)
+
+If not set, sensible defaults are used.
+
 Running this application locally requires [Node.js](https://nodejs.org/) to be installed. Install dependencies for the application with:
 
 ```bash

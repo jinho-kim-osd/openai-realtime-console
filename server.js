@@ -6,6 +6,9 @@ import "dotenv/config";
 const app = express();
 const port = process.env.PORT || 3000;
 const apiKey = process.env.OPENAI_API_KEY;
+const realtimeBaseUrl =
+  process.env.REALTIME_BASE_URL || "http://localhost:8080/v1/realtime";
+const realtimeModel = process.env.REALTIME_MODEL || "gpt-4o-realtime-preview";
 
 // Configure Vite middleware for React client
 const vite = await createViteServer({
@@ -17,20 +20,17 @@ app.use(vite.middlewares);
 // API route for token generation
 app.get("/token", async (req, res) => {
   try {
-    const response = await fetch(
-      "https://api.openai.com/v1/realtime/sessions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-realtime-preview-2025-06-03",
-          voice: "verse",
-        }),
+    const response = await fetch(`${realtimeBaseUrl}/sessions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        model: realtimeModel,
+        voice: "verse",
+      }),
+    });
 
     const data = await response.json();
     res.json(data);
